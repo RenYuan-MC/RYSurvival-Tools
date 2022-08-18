@@ -79,7 +79,7 @@ title 任渊生存服务端-测试模式 %core-name:-=%
 cls
 :: 启动服务器
 echo loading %core-name:-=%, please wait...
-"%~dp0\test-environment-runtime\java\bin\java.exe" -Xms2G -Xmx2G --add-modules=jdk.incubator.vector -jar %core-name%.jar
+"%~dp0\test-environment-runtime\java\bin\java.exe" -Xms2G -Xmx2G --add-modules=jdk.incubator.vector -jar %core-name%.jar nogui
 echo #
 :: 关服分割线
 echo -----------------------------------------------------
