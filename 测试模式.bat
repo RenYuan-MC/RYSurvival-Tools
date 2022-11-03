@@ -104,7 +104,7 @@ goto loop
 
 :: 控制台输出方法
 :info
-echo [Info] %~1 %~2 %~3 %~4 %~5
+echo [Info] %*
 goto exit
 
 :warning
