@@ -141,12 +141,11 @@ exit
 
 :: 扩展包处理
 :ExtensionPack
-if not exist .extension call :NotFoundError .extension folder
-if not exist plugin call :NotFoundError plugin folder
-call :info 装载扩展包中,请稍后...
+if not exist .extensionpack call :NotFoundError .extensionpack folder
+if not exist plugins call :NotFoundError plugins folder
 xcopy .extensionpack plugins /S/E/Y/I>nul
 rd .extensionpack /s/q
-call :info 装载完成！
+call :info 已装载扩展包
 goto exit
 
 :: 检测到非服务端的退出
