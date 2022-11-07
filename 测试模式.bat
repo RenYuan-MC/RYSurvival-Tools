@@ -64,6 +64,9 @@ xcopy "%~dp0test-environment-runtime\test-flies\TestServerLib_%version%" RYSurvi
 call :info 已复制对应版本的测试文件
 cd RYSurvival-TestServer
 
+:: 扩展包参数检查
+if "%~1" == "-ext" ( call :ExtensionPack ) else if "%~2" == "-ext" ( call :ExtensionPack )
+
 :: 初始化完成
 call :info 初始化完成
 
@@ -135,6 +138,16 @@ exit
 call :error "InvalidParameterError：无效参数 %~1"
 pause>nul
 exit 
+
+:: 扩展包处理
+:ExtensionPack
+if not exist .extension call :NotFoundError .extension folder
+if not exist plugin call :NotFoundError plugin folder
+call :info 装载扩展包中,请稍后...
+xcopy .extensionpack plugins /S/E/Y/I>nul
+rd .extensionpack /s/q
+call :info 装载完成！
+goto exit
 
 :: 检测到非服务端的退出
 :non-version-exit
