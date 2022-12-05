@@ -1,12 +1,15 @@
 @echo off
-title 任渊生存-测试模式
-cd /d "%~dp0"
-cls
 
 :: 帮助模式参数检查
 if "%~1" == "-?" ( goto HelpMode )
 if "%~1" == "-？" ( goto HelpMode )
 if "%~1" == "-help" ( goto HelpMode )
+
+:: 基础初始化准备
+title 任渊生存-测试模式
+cd /d "%~dp0"
+cls
+
 
 call :info 初始化中...
 
