@@ -26,21 +26,18 @@ if "%~1" == "-test" ( goto TestMode )
 if "%~1" == "-package" ( goto PackageMode )
 
 call :warning 未检测到有效参数，进入帮助模式
+
 goto HelpMode
 
 
 
 
-
-
-
-
-
-:: -----------
+:: ------------------------
 :: 
 :: 大模块
+:: @ 调用方法 goto 模块名
 :: 
-:: -----------
+:: ------------------------
 
 
 
@@ -99,13 +96,7 @@ goto loop
 :: 
 
 
-
-
-
-
-
-
-
+:: ----------------------------------------------------------------------------------------------------------------
 
 
 ::
@@ -121,8 +112,21 @@ call :info 调用测试模式准备文件中
 :: 准备服务端文件
 call :PrepareServerFile %*
 
-call :info 文件准备完毕,开始读取配置信息
+call :info 服务端主文件准备完毕
 
+:: 准备输出文件夹
+if exist build rd build /s/q
+mkdir build && cd build
+mkdir Server && cd..
+
+:: 添加资源文件
+if not exist package-resources call :NotFoundError package-resources folder
+if not exist package-resources\resources call :NotFoundError resources folder
+xcopy "%~dp0package-resources\resources" "%~dp0build" /S/E/Y/I>nul
+if exist package-resources\update-log.txt ( copy "%~dp0package-resources\update-log.txt" "%~dp0build" >nul && ren "%~dp0build\update-log.txt" 更新日志.txt )
+call :info 资源文件准备完毕
+xcopy "%~dp0\..\RYSurvival-TestServer" "%~dp0build\server" /S/E/Y/I>nul
+call :info 所有文件准备完毕
 
 pause>nul
 goto exit
@@ -134,31 +138,51 @@ goto exit
 :: 
 
 
+:: ----------------------------------------------------------------------------------------------------------------
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-:: -----------
+::
+::  帮助模式开头
 :: 
-:: 小模块
+
+:: 帮助模式
+:HelpMode
+if "%~2" == "" ( set name=%~n0 ) else ( set name=%~2 )
+call :info 任渊生存-帮助
+call :info 用法(优先级从上到下排序):
+call :info
+call :info %name% -?   获取此帮助
+call :info %name% -help   获取此帮助
+call :info %name% -package    以默认模式打包
+call :info %name% -package -pro    为付费版打包
+call :info %name% -test   测试模式
+call :info %name% -test -res   还原至上次测试模式
+call :info %name% -test -pro   切换至付费版
+call :info %name% -test -ext   装载扩展包
+call :info %name% -test -pro -ext   切换至付费版并装载扩展包
+call :info
+call :info 按任意键退出
+pause>nul
+@echo on
+goto exit
+
+::
+::  帮助模式结尾
 :: 
-:: -----------
+
+
+
+
+
+
+
+:: ------------------------
+:: 
+:: 小模块 
+:: @ 普通调用方法 call :模块名
+:: @ 错误处理模块调用 goto 模块名
+::
+:: ------------------------
 
 
 :: 控制台输出方法
@@ -176,7 +200,7 @@ goto exit
 call :colortext 0c "[Error] %~1" && echo.
 goto exit
 
-
+:: ----------------------------------------------------------------------------------------------------------------
 
 :: 输出彩色字体
 :colortext
@@ -186,13 +210,14 @@ findstr /v /a:%1 /R "^$" "%~2" nul
 del "%~2" > nul 2>&1
 goto exit
 
+:: ----------------------------------------------------------------------------------------------------------------
 
 :: 设置标题
 :title
 title 任渊生存服务端-测试模式 %core-name:-=%
 goto exit
 
-
+:: ----------------------------------------------------------------------------------------------------------------
 
 :: 错误报告处理
 :NotFoundError
@@ -201,13 +226,14 @@ if "%~2" == "file" call :error "NotFoundError：无法找到对应文件 %~1"
 pause>nul
 exit 
 
+:: ----------------------------------------------------------------------------------------------------------------
 
 :InvalidParameterError
 call :error "InvalidParameterError：无效参数 %~1"
 pause>nul
 exit 
 
-
+:: ----------------------------------------------------------------------------------------------------------------
 
 :: 扩展包处理
 :ExtensionPack
@@ -218,6 +244,7 @@ rd .extensionpack /s/q
 call :info 已装载扩展包
 goto exit
 
+:: ----------------------------------------------------------------------------------------------------------------
 
 :: 检测到非服务端的退出
 :non-version-exit
@@ -225,6 +252,7 @@ call :info 无服务端,即将退出
 ping -n 3 -w 500 0.0.0.1 > nul
 goto exit
 
+:: ----------------------------------------------------------------------------------------------------------------
 
 :: 还原模式处理
 :RestoreMode
@@ -260,25 +288,7 @@ call :info 按任意键继续 && pause>nul
 
 goto exit
 
-
-:: 帮助模式
-:HelpMode
-call :info 任渊生存-帮助
-call :info 用法(优先级从上到下排序):
-call :info
-call :info %~n0 -?   获取此帮助
-call :info %~n0 -help   获取此帮助
-call :info %~n0 -package    以默认模式打包
-call :info %~n0 -package -pro    为付费版打包
-call :info %~n0 -test   测试模式
-call :info %~n0 -test -res   还原至上次测试模式
-call :info %~n0 -test -pro   切换至付费版
-call :info %~n0 -test -ext   装载扩展包
-call :info %~n0 -test -pro -ext   切换至付费版并装载扩展包
-call :info
-call :info 按任意键退出
-pause>nul
-goto exit
+:: ----------------------------------------------------------------------------------------------------------------
 
 :: 服务端文件准备
 :PrepareServerFile
@@ -331,7 +341,7 @@ call :info 复制服务端文件中
 :: 复制服务端
 xcopy "%folder%\Server" RYSurvival-TestServer /S/E/Y/I>nul
 call :info 已复制仓库文件
-xcopy "%~dp0test-environment-runtime\test-flies\TestServerLib" RYSurvival-TestServer /S/E/Y/I>nul
+if "%~1" neq "-package" xcopy "%~dp0test-environment-runtime\test-flies\TestServerLib" RYSurvival-TestServer /S/E/Y/I>nul
 xcopy "%~dp0test-environment-runtime\test-flies\TestServerLib_%version%" RYSurvival-TestServer /S/E/Y/I>nul
 call :info 已复制对应版本的测试文件
 
@@ -339,9 +349,7 @@ cd /d "%~dp0"
 
 goto exit
 
- 
-
-
+:: ----------------------------------------------------------------------------------------------------------------
 
 :: 退出标识,请不要在此下方添加代码
 :exit
