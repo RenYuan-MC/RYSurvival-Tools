@@ -1,4 +1,4 @@
 @echo off
 cd /d "%~dp0"
 
-²âÊÔÄ£Ê½ -res
+RYSurvival-Tools-Main -test -res
