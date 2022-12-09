@@ -24,6 +24,7 @@ if "%~1" == "-test" ( goto TestMode )
 
 :: 打包模式参数检查
 if "%~1" == "-package" ( goto PackageMode )
+if "%~1" == "-pak" ( goto PackageMode )
 
 call :warning 未检测到有效参数，进入帮助模式
 
@@ -127,6 +128,38 @@ if exist package-resources\update-log.txt ( copy "%~dp0package-resources\update-
 call :info 资源文件准备完毕
 xcopy "%~dp0\..\RYSurvival-TestServer" "%~dp0build\server" /S/E/Y/I>nul
 xcopy "%~dp0test-environment-runtime\java" "%~dp0build\server\java" /S/E/Y/I>nul
+call :info 主文件准备完毕,写入版本信息中
+
+:: 读取git信息
+call :info 正在读取git信息
+cd /d "%~dp0\..\%folder%\.git"
+for /f "tokens=1,* delims=:" %%a in (' findstr "ref:" "HEAD" ') do set git-path=%%b
+
+:: 清除空格,替换目录符号
+set git-path=%git-path: =%
+set git-path=%git-path:/=\%
+
+:: 读取git信息
+set /p git-id=< %cd%\%git-path% 
+cd /d "%~dp0"
+
+:: 准备版本
+if "%~2" == "-dev" call :FormatVersionSuffix
+if "%~3" == "-dev" call :FormatVersionSuffix
+
+:: 控制台输出版本信息
+call :info 版本: %version%%ver-suffix%
+call :info Git: %git-id:~0,7%
+call :info 核心: %core-name%.jar
+call :info 核心名称: %core-name:-=%
+
+cd /d "%~dp0build\server"
+:: 写入版本信息
+echo #任渊生存服务端版本识别文件,请勿修改 >version.properties
+echo version=%version%%ver-suffix% >>version.properties
+echo git=%git-id:~0,7% >>version.properties
+echo core=%core-name%.jar >>version.properties
+echo name=%core-name:-=% >>version.properties
 call :info 所有文件准备完毕
 
 pause>nul
@@ -179,8 +212,7 @@ goto exit
 :: ------------------------
 :: 
 :: 小模块 
-:: @ 普通调用方法 call :模块名
-:: @ 错误处理模块调用 goto 模块名
+:: @ 调用方法 call :模块名
 ::
 :: ------------------------
 
@@ -350,6 +382,26 @@ cd /d "%~dp0"
 goto exit
 
 :: ----------------------------------------------------------------------------------------------------------------
+
+:: 格式化版本号后缀
+:FormatVersionSuffix
+if "%version%" == "" call :InvalidParameterError version
+if not exist build-info mkdir build-info
+cd build-info
+:: 初始化构建信息
+if not exist %version%.properties echo build=0 >%version%.properties
+for /f "tokens=1,* delims==" %%a in (' findstr "build=" "%version%.properties" ') do set build=%%b
+if "%build%" == "" call :InvalidParameterError build
+:: 清除空格
+set build=%build: =%
+set ver-suffix=-dev%build%
+:: 更新构建号
+set /a build += 1
+echo build=%build% >%version%.properties
+goto exit
+
+:: ----------------------------------------------------------------------------------------------------------------
+
 
 :: 退出标识,请不要在此下方添加代码
 :exit

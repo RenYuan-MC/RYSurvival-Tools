@@ -1,4 +1,4 @@
 @echo off
 cd /d "%~dp0"
 
-RYSurvival-Tools-Main -package
+RYSurvival-Tools-Main -package -dev
