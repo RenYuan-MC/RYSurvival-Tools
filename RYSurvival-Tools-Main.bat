@@ -50,7 +50,7 @@ goto HelpMode
 title 任渊生存-测试模式
 
 :: 还原模式参数检查
-if "%~2" == "-res" ( call :RestoreMode && goto loop )
+if "%~2" == "-res" ( call :RestoreMode & goto loop )
 
 :: 准备服务端文件
 call :PrepareServerFile %*
@@ -70,7 +70,7 @@ echo version=%version% >>restore.properties
 call :info 初始化完成
 
 :: 启动服务端
-call :info 按任意键启动服务端 && pause>nul
+call :info 按任意键启动服务端 & pause>nul
 
 :: 设置标题
 call :title
@@ -116,16 +116,17 @@ call :info 服务端主文件准备完毕
 
 :: 准备输出文件夹
 if exist build rd build /s/q
-mkdir build && cd build
-mkdir Server && cd..
+mkdir build & cd build
+mkdir Server & cd..
 
 :: 添加资源文件
 if not exist package-resources call :NotFoundError package-resources folder
 if not exist package-resources\resources call :NotFoundError resources folder
 xcopy "%~dp0package-resources\resources" "%~dp0build" /S/E/Y/I>nul
-if exist package-resources\update-log.txt ( copy "%~dp0package-resources\update-log.txt" "%~dp0build" >nul && ren "%~dp0build\update-log.txt" 更新日志.txt )
+if exist package-resources\update-log.txt ( copy "%~dp0package-resources\update-log.txt" "%~dp0build" >nul & ren "%~dp0build\update-log.txt" 更新日志.txt )
 call :info 资源文件准备完毕
 xcopy "%~dp0\..\RYSurvival-TestServer" "%~dp0build\server" /S/E/Y/I>nul
+xcopy "%~dp0test-environment-runtime\java" "%~dp0build\server\java" /S/E/Y/I>nul
 call :info 所有文件准备完毕
 
 pause>nul
@@ -163,7 +164,6 @@ call :info %name% -test -pro -ext   切换至付费版并装载扩展包
 call :info
 call :info 按任意键退出
 pause>nul
-@echo on
 goto exit
 
 ::
@@ -192,12 +192,12 @@ goto exit
 
 
 :warning
-call :colortext 0e "[Warning] %~1" && echo.
+call :colortext 0e "[Warning] %~1" & echo.
 goto exit
 
 
 :error
-call :colortext 0c "[Error] %~1" && echo.
+call :colortext 0c "[Error] %~1" & echo.
 goto exit
 
 :: ----------------------------------------------------------------------------------------------------------------
@@ -284,7 +284,7 @@ call :title
 
 :: 加载完成
 call :info 已完成还原模式加载
-call :info 按任意键继续 && pause>nul
+call :info 按任意键继续 & pause>nul
 
 goto exit
 
@@ -294,7 +294,7 @@ goto exit
 :PrepareServerFile
 
 :: 付费版参数检查
-if "%~2" == "-pro" ( set folder=RYSurvival-Pro && call :info 检测到使用付费版仓库 ) else ( set folder=RYSurvival && call :info 检测到使用免费版仓库 )
+if "%~2" == "-pro" ( set folder=RYSurvival-Pro & call :info 检测到使用付费版仓库 ) else ( set folder=RYSurvival & call :info 检测到使用免费版仓库 )
 set folder=%folder: =%
 
 :: 读取服务端版本
