@@ -160,7 +160,14 @@ echo version=%version%%ver-suffix% >>version.properties
 echo git=%git-id:~0,7% >>version.properties
 echo core=%core-name%.jar >>version.properties
 echo name=%core-name:-=% >>version.properties
-call :info 所有文件准备完毕
+
+
+call :info 所有文件准备完毕,打包中...
+
+cd /d "%~dp0"
+if exist .\build\任渊生存服务端V%version%%ver-suffix%.zip del .\build\任渊生存服务端V%version%%ver-suffix%.zip >nul
+"%~dp0test-environment-runtime\7zip\7z" a -tzip .\build\任渊生存服务端V%version%%ver-suffix%.zip .\build\* >nul
+call :info 打包完成
 
 pause>nul
 goto exit
