@@ -122,9 +122,8 @@ mkdir Server & cd..
 
 :: 添加资源文件
 if not exist package-resources call :NotFoundError package-resources folder
-if not exist package-resources\resources call :NotFoundError resources folder
-xcopy "%~dp0package-resources\resources" "%~dp0build" /S/E/Y/I>nul
-if exist package-resources\update-log.txt ( copy "%~dp0package-resources\update-log.txt" "%~dp0build" >nul & ren "%~dp0build\update-log.txt" 更新日志.txt )
+xcopy "%~dp0package-resources" "%~dp0build" /S/E/Y/I>nul
+if exist update-log.txt ( copy "%~dp0update-log.txt" "%~dp0build" >nul & ren "%~dp0build\update-log.txt" 更新日志.txt )
 call :info 资源文件准备完毕
 xcopy "%~dp0\..\RYSurvival-TestServer" "%~dp0build\server" /S/E/Y/I>nul
 xcopy "%~dp0test-environment-runtime\java" "%~dp0build\server\java" /S/E/Y/I>nul

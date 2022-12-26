@@ -1,8 +1,0 @@
-任渊生存服务端 BY RENaa_FD
-服务端作者QQ:1593713272
-Github地址:https://github.com/RenYuan-MC/RYSurvival
-
-严禁倒卖！！！
-
-本端采用GPL3.0协议,具体请查看目录里的LICENSE文件
-
