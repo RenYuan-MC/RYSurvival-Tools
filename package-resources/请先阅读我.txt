@@ -4,5 +4,5 @@ Github地址:https://github.com/RenYuan-MC/RYSurvival
 
 严禁倒卖！！！
 
-本端采用GPL3.0协议,具体请查看目录里的LICENSE文件
+本端采用CC-BY-SA-4.0协议,具体请查看目录里的LICENSE文件
 
