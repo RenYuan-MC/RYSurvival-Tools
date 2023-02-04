@@ -21,10 +21,12 @@ cd..
 
 :: 测试模式参数检查
 if "%~1" == "-test" ( goto TestMode )
+if "%~1" == "-t" ( goto TestMode )
 
 :: 打包模式参数检查
 if "%~1" == "-package" ( goto PackageMode )
 if "%~1" == "-pak" ( goto PackageMode )
+if "%~1" == "-p" ( goto PackageMode )
 
 call :warning 未检测到有效参数，进入帮助模式
 
@@ -52,6 +54,7 @@ title 任渊生存-测试模式
 
 :: 还原模式参数检查
 if "%~2" == "-res" ( call :RestoreMode & goto loop )
+if "%~2" == "-r" ( call :RestoreMode & goto loop )
 
 :: 准备服务端文件
 call :PrepareServerFile %*
@@ -62,6 +65,7 @@ cd RYSurvival-TestServer
 
 :: 扩展包参数检查
 if "%~2" == "-ext" ( call :ExtensionPack ) else if "%~3" == "-ext" ( call :ExtensionPack )
+if "%~2" == "-e" ( call :ExtensionPack ) else if "%~3" == "-e" ( call :ExtensionPack )
 
 :: 添加版本信息
 echo core-name=%core-name% >restore.properties
@@ -145,6 +149,8 @@ cd /d "%~dp0"
 :: 准备版本
 if "%~2" == "-dev" call :FormatVersionSuffix
 if "%~3" == "-dev" call :FormatVersionSuffix
+if "%~2" == "-d" call :FormatVersionSuffix
+if "%~3" == "-d" call :FormatVersionSuffix
 
 :: 控制台输出版本信息
 call :info 版本: %version%%ver-suffix%
@@ -288,7 +294,7 @@ goto exit
 :non-version-exit
 call :info 无服务端,即将退出
 ping -n 3 -w 500 0.0.0.1 > nul
-goto exit
+exit 0
 
 :: ----------------------------------------------------------------------------------------------------------------
 
@@ -332,7 +338,7 @@ goto exit
 :PrepareServerFile
 
 :: 付费版参数检查
-if "%~2" == "-pro" ( set folder=RYSurvival-Pro & call :info 检测到使用付费版仓库 ) else ( set folder=RYSurvival & call :info 检测到使用免费版仓库 )
+if "%~2" == "-pro" ( set folder=RYSurvival-Pro & call :info 检测到使用付费版仓库 ) else if "%~2" == "-p" ( set folder=RYSurvival-Pro & call :info 检测到使用付费版仓库 ) else ( set folder=RYSurvival & call :info 检测到使用免费版仓库 )
 set folder=%folder: =%
 
 :: 读取服务端版本
