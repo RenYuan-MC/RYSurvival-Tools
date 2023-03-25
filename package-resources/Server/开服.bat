@@ -2,13 +2,14 @@
 cd /d "%~dp0"
 cls
 
+setlocal EnableDelayedExpansion
+
 call :info 请稍后,初始化中...
 set line=----------------------------------
 set titl=任渊生存
 title %titl% 初始化中...
 
 :: 初始化彩色字体
-setlocal EnableDelayedExpansion
 for /f "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do set "DEL=%%a"
 
 call :VersionReader
@@ -17,7 +18,6 @@ call :DisplayConfig
 call :EulaChecker
 call :PortChecker
 
-set startup-command=
 set /a times=0
 if "%port-titl%" equ "true" set titl-port=端口: %server-port%
 
@@ -27,8 +27,9 @@ if "%port-titl%" equ "true" set titl-port=端口: %server-port%
 call :RefreshMemory
 cls
 call :RefreshTitle
+call :RefreshFlags
 
-%java-path% -Xmx%xmx%M -Xms%xms%M %extra-java% -jar %core% %extra-server%
+%java-path% -Xmx%xmx%M -Xms%xms%M %flags% %extra-java% -jar %core% %extra-server%
 
 echo.
 call :Info %line%
@@ -42,7 +43,7 @@ if "%auto-restart%" neq "true" (
 
 for /l %%a in (%restart-wait%,-1,1) do (
     call :Info 服务端将在%%a秒后重启
-    ping -n 2 -w 500 0.0.0.1>nul
+    ping -n 2 -w 500 127.0.0.1 >nul
 )
 
 call :Info 服务端重启中
@@ -112,8 +113,8 @@ goto exit
 
 :: properties文件读取
 :PropertiesReader
-if "%~3" equ "-keepspace" (set space=true) && if "%~4" equ "-keepspace" (set space=true)
-if "%~3" equ "-disablewarn" (set warn=false) && if "%~4" equ "-disablewarn" set (warn=false)
+if "%~3" equ "-keepspace" (set space=true) & if "%~4" equ "-keepspace" (set space=true)
+if "%~3" equ "-disablewarn" (set warn=false) & if "%~4" equ "-disablewarn" set (warn=false)
 if not exist %~1 ( if "%warn%" neq "false" call :Warn "未检测到文件 %~1 ！" ) & goto exit
 for /f "tokens=1,* delims==" %%a in ('findstr "%~2=" "%~1"') do set tag=%%b
 if "%tag%" equ "" ( if "%warn%" neq "false" call :Warn "无法获取到 %~1 的 %~2 参数！" ) & goto exit
@@ -145,6 +146,7 @@ if not exist launcher.properties call :ConfigCreater
 :: 读取配置文件
 call :Info 读取配置文件中
 call :PropertiesReader launcher.properties port-titl
+call :PropertiesReader launcher.properties etil-flags
 call :PropertiesReader launcher.properties auto-memory
 call :PropertiesReader launcher.properties default-xmx
 call :PropertiesReader launcher.properties default-xms
@@ -162,14 +164,14 @@ goto exit
 :ConfigCreater
 call :info 将创建一个新的配置文件,按任意键以继续
 pause >nul
-set port-titl=true 
+set port-titl=true
+set etil-flags=true
 set auto-memory=true 
 set default-xmx=4096 
 set default-xms=4096 
 set auto-restart=true 
 set restart-wait=10 
 set extra-server=nogui 
-set extra-java=--add-modules=jdk.incubator.vector 
 .\Java\bin\java.exe -version >nul 2>&1
 if %errorlevel% equ 0 ( set java-path=.\Java\bin\java.exe ) else ( set java-path=java )
 call :SaveConfig
@@ -180,9 +182,9 @@ goto exit
 
 :: 旧版配置文件转换
 :ConfigTranslator
-if not exist config.properties call :Warn 未找到正确的旧配置文件 && goto ConfigCreater
+if not exist config.properties call :Warn 未找到正确的旧配置文件 & goto ConfigCreater
 call :info 正在转换旧版配置文件
-if exist launcher.properties call :Warn 检测到launcher.properties已存在，将覆盖原配置文件，按任意键以继续 && pause >nul
+if exist launcher.properties call :Warn 检测到launcher.properties已存在，将覆盖原配置文件，按任意键以继续 & pause >nul
 
 :: 由于现在不会在开服前等待,将忽略EarlyLunchWait
 :: ServerGUI将转换为extra-server直接添加-nogui参数
@@ -209,6 +211,7 @@ call :PropertiesReader config.properties LogAutoRemove -disablewarn
 call :PropertiesReader config.properties EarlyLunchWait -disablewarn
 
 set port-titl=true
+set etil-flags=true
 set auto-memory=%AutoMemSet%
 if "%UserRam%" equ "" set UserRam=4096
 set default-xmx=%UserRam%
@@ -217,7 +220,6 @@ set default-xms=%MinMem%
 set auto-restart=%AutoRestart%
 set restart-wait=%RestartWait%
 if "%ServerGUI%" equ "false" set extra-server=nogui 
-set extra-java=--add-modules=jdk.incubator.vector
 .\Java\bin\java.exe -version >nul 2>&1
 if %errorlevel% equ 0 ( set java-path=.\Java\bin\java.exe ) else ( set java-path=java )
 set old.system-memory=%SysMem%
@@ -241,6 +243,10 @@ echo # 任渊生存服务端启动器配置文件 >launcher.properties
 echo. >>launcher.properties
 echo # 是否在标题显示服务器端口 >>launcher.properties
 echo port-titl=%port-titl% >>launcher.properties
+echo. >>launcher.properties
+echo # 是否启用etil-flags >>launcher.properties
+echo # etil-flags基于Aikar-flags,可以小幅度提升性能 >>launcher.properties
+echo etil-flags=%etil-flags% >>launcher.properties
 echo. >>launcher.properties
 echo # 是否自动设置内存 >>launcher.properties
 echo auto-memory=%auto-memory% >>launcher.properties
@@ -268,9 +274,12 @@ echo old.auto-remove-log=%old.auto-remove-log% >> launcher.properties
 echo old.launch-wait=%old.launch-wait% >> launcher.properties
 goto exit
 
+
+
 :DisplayConfig
 call :Info %line%
 call :Info 在标题显示端口: %port-titl%
+call :Info 启用etil-flags: %etil-flags%
 call :Info 自动分配内存: %auto-memory%
 call :Info 最大内存: %default-xmx%
 call :Info 最小内存: %default-xms%
@@ -293,11 +302,11 @@ call :Warn "在服务端正式运行前，你还要同意Minecraft EULA"
 call :Info 查看EULA请前往 https://account.mojang.com/documents/minecraft_eula
 call :Info 在此处按任意键表示同意Minecraft EULA并启动服务端
 
-pause>nul
-echo eula=true>eula.txt
+pause >nul
+echo eula=true >eula.txt
 call :Info 你同意了Minecraft EULA,服务端即将启动
 call :Info %line%
-ping -n 2 -w 500 0.0.0.1>nul
+ping -n 2 -w 500 127.0.0.1 >nul
 
 goto exit
 
@@ -313,7 +322,7 @@ if "%server-port%" equ "" (
 :: 查找占用端口的程序
 set /a times=0 
 for /f "tokens=2,5" %%i in (' netstat -ano ^| findstr "%server-port%" ') do (
-    for /f %%a in ('echo %%i ^| findstr "%server-port%"') do ( 
+    for /f %%a in (' echo %%i ^| findstr "%server-port%" ') do ( 
         if "!times!" equ "0" (
             call :Warn 服务器端口可能被占用，将会导致服务器无法正常开启！
             call :Info 以下是占用端口的进程PID和对应端口IP:
@@ -330,6 +339,9 @@ if "%times%" neq "0" (
 set times=
 goto exit
 
+
+
+
 :: 刷新标题
 :RefreshTitle
 if "%auto-restart%" equ "true" (
@@ -338,6 +350,9 @@ if "%auto-restart%" equ "true" (
     title %titl% %name% %titl-port%
 )
 goto exit
+
+
+
 
 :: 刷新内存分配
 :RefreshMemory
@@ -366,6 +381,20 @@ call :Info %line%
 ping -n 2 -w 500 127.0.0.1 >nul 
 
 goto exit
+
+
+:: 刷新etil-flags
+:RefreshFlags
+if "%etil-flags%" equ "false" goto exit
+
+if %xmx% lss 12288 (
+    set flags=-XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+UnlockDiagnosticVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -XX:-UseBiasedLocking -XX:UseAVX=3 -XX:+UseStringDeduplication -XX:+UseFastUnorderedTimeStamps -XX:+UseAES -XX:+UseAESIntrinsics -XX:UseSSE=4 -XX:+UseFMA -XX:AllocatePrefetchStyle=1 -XX:+UseLoopPredicate -XX:+RangeCheckElimination -XX:+EliminateLocks -XX:+DoEscapeAnalysis -XX:+UseCodeCacheFlushing -XX:+SegmentedCodeCache -XX:+UseFastJNIAccessors -XX:+OptimizeStringConcat -XX:+UseCompressedOops -XX:+UseThreadPriorities -XX:+OmitStackTraceInFastThrow -XX:+TrustFinalNonStaticFields -XX:ThreadPriorityPolicy=1 -XX:+UseInlineCaches -XX:+RewriteBytecodes -XX:+RewriteFrequentPairs -XX:+UseNUMA -XX:-DontCompileHugeMethods -XX:+UseFPUForSpilling -XX:+UseFastStosb -XX:+UseNewLongLShift -XX:+UseVectorCmov -XX:+UseXMMForArrayCopy -XX:+UseXmmI2D -XX:+UseXmmI2F -XX:+UseXmmLoadAndClearUpper -XX:+UseXmmRegToRegMoveAll -Dfile.encoding=UTF-8 -Xlog:async -Djava.security.egd=file:/dev/urandom --add-modules=jdk.incubator.vector
+) else (
+    set flags=-XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+UnlockDiagnosticVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=40 -XX:G1MaxNewSizePercent=50 -XX:G1HeapRegionSize=16M -XX:G1ReservePercent=15 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=20 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -XX:-UseBiasedLocking -XX:UseAVX=3 -XX:+UseStringDeduplication -XX:+UseFastUnorderedTimeStamps -XX:+UseAES -XX:+UseAESIntrinsics -XX:UseSSE=4 -XX:+UseFMA -XX:AllocatePrefetchStyle=1 -XX:+UseLoopPredicate -XX:+RangeCheckElimination -XX:+EliminateLocks -XX:+DoEscapeAnalysis -XX:+UseCodeCacheFlushing -XX:+SegmentedCodeCache -XX:+UseFastJNIAccessors -XX:+OptimizeStringConcat -XX:+UseCompressedOops -XX:+UseThreadPriorities -XX:+OmitStackTraceInFastThrow -XX:+TrustFinalNonStaticFields -XX:ThreadPriorityPolicy=1 -XX:+UseInlineCaches -XX:+RewriteBytecodes -XX:+RewriteFrequentPairs -XX:+UseNUMA -XX:-DontCompileHugeMethods -XX:+UseFPUForSpilling -XX:+UseFastStosb -XX:+UseNewLongLShift -XX:+UseVectorCmov -XX:+UseXMMForArrayCopy -XX:+UseXmmI2D -XX:+UseXmmI2F -XX:+UseXmmLoadAndClearUpper -XX:+UseXmmRegToRegMoveAll -Dfile.encoding=UTF-8 -Xlog:async -Djava.security.egd=file:/dev/urandom --add-modules=jdk.incubator.vector
+)
+
+goto exit
+
 
 :: 退出标识,请不要在此下方添加代码
 :exit

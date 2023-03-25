@@ -14,5 +14,6 @@ source distribution.
   Please email azul_openjdk@azul.com for further information.
 
   Include this version code in your email:
-  zsrc17.34.19-jdk17.0.3 f2d082bc9a89d8fcc92eb1e29eee45f1d243514c
+  zsrc20.28.85-jdk20.0.0 9bd49cd76ddc34789f1cf7f6ae1786095a4ab5a2
 
+To read more about Azul products visit https://www.azul.com/products/?r=zulu
