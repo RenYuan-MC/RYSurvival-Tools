@@ -1,4 +1,4 @@
-## Unicode Common Local Data Repository (CLDR) v42
+## Unicode Common Local Data Repository (CLDR) v41
 
 ### CLDR License
 
