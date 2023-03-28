@@ -86,7 +86,7 @@ call :title
 cls
 :: 启动服务器
 echo loading %core-name:-=%, please wait...
-"%~dp0\test-environment-runtime\java\bin\java.exe" -Xms2G -Xmx2G --add-modules=jdk.incubator.vector -jar %core-name%.jar nogui
+"%~dp0\test-environment-runtime\java\bin\java.exe" -Xms2G -Xmx2G --add-modules=jdk.incubator.vector -DPurpur.IReallyDontWantSpark=true -jar %core-name%.jar nogui
 echo #
 :: 关服分割线
 echo -----------------------------------------------------
