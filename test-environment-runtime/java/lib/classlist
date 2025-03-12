@@ -3,6 +3,10 @@
 # This file is generated via the -XX:DumpLoadedClassList=<class_list_file> option
 # and is used at CDS archive dump time (see -Xshare:dump).
 #
+com/azul/tooling/in/JarLoadEvent
+com/azul/tooling/in/Tooling
+com/azul/tooling/in/Tooling$1
+com/azul/tooling/in/Tooling$ToolingEvent
 java/io/BufferedInputStream
 java/io/BufferedOutputStream
 java/io/BufferedWriter
@@ -65,10 +69,6 @@ java/lang/ClassCastException
 java/lang/ClassLoader
 java/lang/ClassLoader$ParallelLoaders
 java/lang/ClassNotFoundException
-java/lang/ClassValue
-java/lang/ClassValue$Entry
-java/lang/ClassValue$Identity
-java/lang/ClassValue$Version
 java/lang/Cloneable
 java/lang/Comparable
 java/lang/CompoundEnumeration
@@ -77,9 +77,11 @@ java/lang/Enum
 java/lang/Error
 java/lang/Exception
 java/lang/Float
+java/lang/IllegalAccessException
 java/lang/IllegalArgumentException
 java/lang/IllegalMonitorStateException
 java/lang/IncompatibleClassChangeError
+java/lang/InstantiationException
 java/lang/Integer
 java/lang/Integer$IntegerCache
 java/lang/InternalError
@@ -92,6 +94,7 @@ java/lang/Long$LongCache
 java/lang/Math
 java/lang/Module
 java/lang/Module$ArchivedData
+java/lang/Module$EnableNativeAccess
 java/lang/Module$ReflectionData
 java/lang/ModuleLayer
 java/lang/ModuleLayer$Controller
@@ -134,9 +137,7 @@ java/lang/StringBuilder
 java/lang/StringCoding
 java/lang/StringConcatHelper
 java/lang/StringLatin1
-java/lang/StringLatin1$CharsSpliterator
 java/lang/StringUTF16
-java/lang/StringUTF16$CharsSpliterator
 java/lang/System
 java/lang/System$2
 java/lang/System$Logger
@@ -149,7 +150,7 @@ java/lang/Thread$FieldHolder
 java/lang/Thread$State
 java/lang/Thread$ThreadIdentifiers
 java/lang/Thread$UncaughtExceptionHandler
-java/lang/ThreadDeath
+java/lang/ThreadBuilders$BoundVirtualThread
 java/lang/ThreadGroup
 java/lang/ThreadLocal
 java/lang/ThreadLocal$ThreadLocalMap
@@ -205,7 +206,7 @@ java/lang/invoke/InfoFromMemberName
 java/lang/invoke/InnerClassLambdaMetafactory
 java/lang/invoke/InnerClassLambdaMetafactory$ForwardingMethodGenerator
 java/lang/invoke/InvokerBytecodeGenerator
-java/lang/invoke/InvokerBytecodeGenerator$2
+java/lang/invoke/InvokerBytecodeGenerator$1
 java/lang/invoke/InvokerBytecodeGenerator$ClassData
 java/lang/invoke/Invokers
 java/lang/invoke/Invokers$Holder
@@ -241,8 +242,7 @@ java/lang/invoke/MethodHandles$Lookup$ClassDefiner
 java/lang/invoke/MethodHandles$Lookup$ClassFile
 java/lang/invoke/MethodHandles$Lookup$ClassOption
 java/lang/invoke/MethodType
-java/lang/invoke/MethodType$ConcurrentWeakInternSet
-java/lang/invoke/MethodType$ConcurrentWeakInternSet$WeakEntry
+java/lang/invoke/MethodType$1
 java/lang/invoke/MethodTypeForm
 java/lang/invoke/MutableCallSite
 java/lang/invoke/ResolvedMethodName
@@ -259,15 +259,24 @@ java/lang/invoke/VarHandle$AccessMode
 java/lang/invoke/VarHandle$AccessType
 java/lang/invoke/VarHandleBooleans$FieldInstanceReadOnly
 java/lang/invoke/VarHandleBooleans$FieldInstanceReadWrite
+java/lang/invoke/VarHandleByteArrayAsChars$ArrayHandle
+java/lang/invoke/VarHandleByteArrayAsChars$ByteArrayViewVarHandle
+java/lang/invoke/VarHandleByteArrayAsDoubles$ArrayHandle
+java/lang/invoke/VarHandleByteArrayAsDoubles$ByteArrayViewVarHandle
+java/lang/invoke/VarHandleByteArrayAsFloats$ArrayHandle
+java/lang/invoke/VarHandleByteArrayAsFloats$ByteArrayViewVarHandle
+java/lang/invoke/VarHandleByteArrayAsInts$ArrayHandle
+java/lang/invoke/VarHandleByteArrayAsInts$ByteArrayViewVarHandle
+java/lang/invoke/VarHandleByteArrayAsLongs$ArrayHandle
+java/lang/invoke/VarHandleByteArrayAsLongs$ByteArrayViewVarHandle
+java/lang/invoke/VarHandleByteArrayAsShorts$ArrayHandle
+java/lang/invoke/VarHandleByteArrayAsShorts$ByteArrayViewVarHandle
 java/lang/invoke/VarHandleGuards
-java/lang/invoke/VarHandleInts$FieldInstanceReadOnly
-java/lang/invoke/VarHandleInts$FieldInstanceReadWrite
 java/lang/invoke/VarHandleLongs$FieldInstanceReadOnly
 java/lang/invoke/VarHandleLongs$FieldInstanceReadWrite
 java/lang/invoke/VarHandleReferences$FieldInstanceReadOnly
 java/lang/invoke/VarHandleReferences$FieldInstanceReadWrite
 java/lang/invoke/VarHandles
-java/lang/invoke/VarHandles$1
 java/lang/invoke/VolatileCallSite
 java/lang/module/Configuration
 java/lang/module/ModuleDescriptor
@@ -303,13 +312,35 @@ java/lang/ref/ReferenceQueue
 java/lang/ref/ReferenceQueue$Null
 java/lang/ref/SoftReference
 java/lang/ref/WeakReference
+java/lang/reflect/AccessFlag
+java/lang/reflect/AccessFlag$1
+java/lang/reflect/AccessFlag$10
+java/lang/reflect/AccessFlag$11
+java/lang/reflect/AccessFlag$12
+java/lang/reflect/AccessFlag$13
+java/lang/reflect/AccessFlag$14
+java/lang/reflect/AccessFlag$15
+java/lang/reflect/AccessFlag$16
+java/lang/reflect/AccessFlag$17
+java/lang/reflect/AccessFlag$18
+java/lang/reflect/AccessFlag$2
+java/lang/reflect/AccessFlag$3
+java/lang/reflect/AccessFlag$4
+java/lang/reflect/AccessFlag$5
+java/lang/reflect/AccessFlag$6
+java/lang/reflect/AccessFlag$7
+java/lang/reflect/AccessFlag$8
+java/lang/reflect/AccessFlag$9
+java/lang/reflect/AccessFlag$Location
 java/lang/reflect/AccessibleObject
 java/lang/reflect/AnnotatedElement
 java/lang/reflect/Array
+java/lang/reflect/ClassFileFormatVersion
 java/lang/reflect/Constructor
 java/lang/reflect/Executable
 java/lang/reflect/Field
 java/lang/reflect/GenericDeclaration
+java/lang/reflect/InvocationTargetException
 java/lang/reflect/Member
 java/lang/reflect/Method
 java/lang/reflect/Modifier
@@ -347,6 +378,7 @@ java/nio/Bits
 java/nio/Bits$1
 java/nio/Buffer
 java/nio/Buffer$1
+java/nio/Buffer$2
 java/nio/ByteBuffer
 java/nio/ByteOrder
 java/nio/CharBuffer
@@ -391,7 +423,6 @@ java/security/AccessController
 java/security/AllPermission
 java/security/BasicPermission
 java/security/BasicPermissionCollection
-java/security/CodeSigner
 java/security/CodeSource
 java/security/Guard
 java/security/Permission
@@ -518,7 +549,6 @@ java/util/ArrayList$ArrayListSpliterator
 java/util/ArrayList$Itr
 java/util/ArrayList$SubList
 java/util/Arrays
-java/util/Arrays$ArrayItr
 java/util/Arrays$ArrayList
 java/util/Arrays$LegacyMergeSort
 java/util/Calendar
@@ -618,7 +648,6 @@ java/util/NavigableMap
 java/util/NavigableSet
 java/util/Objects
 java/util/Optional
-java/util/OptionalInt
 java/util/Properties
 java/util/Properties$EntrySet
 java/util/Properties$LineReader
@@ -634,6 +663,9 @@ java/util/ResourceBundle$Control$CandidateListCache
 java/util/ResourceBundle$NoFallbackControl
 java/util/ResourceBundle$ResourceBundleProviderHelper
 java/util/ResourceBundle$SingleFormatControl
+java/util/SequencedCollection
+java/util/SequencedMap
+java/util/SequencedSet
 java/util/ServiceLoader
 java/util/ServiceLoader$1
 java/util/ServiceLoader$2
@@ -702,6 +734,7 @@ java/util/concurrent/ExecutorService
 java/util/concurrent/ForkJoinPool
 java/util/concurrent/ForkJoinPool$2
 java/util/concurrent/ForkJoinPool$DefaultForkJoinWorkerThreadFactory
+java/util/concurrent/ForkJoinPool$DefaultForkJoinWorkerThreadFactory$1
 java/util/concurrent/ForkJoinPool$ForkJoinWorkerThreadFactory
 java/util/concurrent/ForkJoinPool$ManagedBlocker
 java/util/concurrent/ForkJoinPool$WorkQueue
@@ -716,11 +749,12 @@ java/util/concurrent/atomic/AtomicInteger
 java/util/concurrent/atomic/AtomicLong
 java/util/concurrent/atomic/LongAdder
 java/util/concurrent/atomic/Striped64
-java/util/concurrent/atomic/Striped64$1
+java/util/concurrent/atomic/Striped64$Cell
 java/util/concurrent/locks/AbstractOwnableSynchronizer
 java/util/concurrent/locks/AbstractQueuedSynchronizer
 java/util/concurrent/locks/AbstractQueuedSynchronizer$ConditionNode
 java/util/concurrent/locks/AbstractQueuedSynchronizer$ConditionObject
+java/util/concurrent/locks/AbstractQueuedSynchronizer$ExclusiveNode
 java/util/concurrent/locks/AbstractQueuedSynchronizer$Node
 java/util/concurrent/locks/Condition
 java/util/concurrent/locks/Lock
@@ -733,9 +767,7 @@ java/util/function/BiFunction
 java/util/function/BinaryOperator
 java/util/function/Consumer
 java/util/function/Function
-java/util/function/IntConsumer
 java/util/function/IntFunction
-java/util/function/IntPredicate
 java/util/function/Predicate
 java/util/function/Supplier
 java/util/jar/Attributes
@@ -815,21 +847,13 @@ java/util/stream/Collector$Characteristics
 java/util/stream/Collectors
 java/util/stream/Collectors$CollectorImpl
 java/util/stream/Collectors$Partition
-java/util/stream/Collectors$Partition$1
 java/util/stream/FindOps
 java/util/stream/FindOps$FindOp
 java/util/stream/FindOps$FindSink
-java/util/stream/FindOps$FindSink$OfInt
 java/util/stream/FindOps$FindSink$OfRef
 java/util/stream/ForEachOps
 java/util/stream/ForEachOps$ForEachOp
 java/util/stream/ForEachOps$ForEachOp$OfRef
-java/util/stream/IntPipeline
-java/util/stream/IntPipeline$10
-java/util/stream/IntPipeline$10$1
-java/util/stream/IntPipeline$Head
-java/util/stream/IntPipeline$StatelessOp
-java/util/stream/IntStream
 java/util/stream/Node
 java/util/stream/Node$Builder
 java/util/stream/Node$OfDouble
@@ -862,9 +886,7 @@ java/util/stream/ReferencePipeline$7$1
 java/util/stream/ReferencePipeline$Head
 java/util/stream/ReferencePipeline$StatelessOp
 java/util/stream/Sink
-java/util/stream/Sink$ChainedInt
 java/util/stream/Sink$ChainedReference
-java/util/stream/Sink$OfInt
 java/util/stream/Stream
 java/util/stream/Stream$Builder
 java/util/stream/StreamOpFlag
@@ -884,11 +906,13 @@ java/util/zip/Inflater
 java/util/zip/Inflater$InflaterZStreamRef
 java/util/zip/InflaterInputStream
 java/util/zip/ZipCoder
+java/util/zip/ZipCoder$Comparison
 java/util/zip/ZipCoder$UTF8ZipCoder
 java/util/zip/ZipConstants
 java/util/zip/ZipEntry
 java/util/zip/ZipFile
 java/util/zip/ZipFile$1
+java/util/zip/ZipFile$2
 java/util/zip/ZipFile$CleanableResource
 java/util/zip/ZipFile$EntrySpliterator
 java/util/zip/ZipFile$InflaterCleanupAction
@@ -911,6 +935,7 @@ jdk/internal/access/JavaNetURLAccess
 jdk/internal/access/JavaNetUriAccess
 jdk/internal/access/JavaNioAccess
 jdk/internal/access/JavaSecurityAccess
+jdk/internal/access/JavaSecurityPropertiesAccess
 jdk/internal/access/JavaUtilConcurrentFJPAccess
 jdk/internal/access/JavaUtilJarAccess
 jdk/internal/access/JavaUtilResourceBundleAccess
@@ -923,7 +948,6 @@ jdk/internal/foreign/abi/VMStorage
 jdk/internal/jimage/BasicImageReader
 jdk/internal/jimage/BasicImageReader$1
 jdk/internal/jimage/ImageHeader
-jdk/internal/jimage/ImageLocation
 jdk/internal/jimage/ImageReader
 jdk/internal/jimage/ImageReader$SharedImageReader
 jdk/internal/jimage/ImageReaderFactory
@@ -984,7 +1008,9 @@ jdk/internal/misc/CarrierThread
 jdk/internal/misc/CarrierThreadLocal
 jdk/internal/misc/InnocuousThread
 jdk/internal/misc/InternalLock
+jdk/internal/misc/MainMethodFinder
 jdk/internal/misc/OSEnvironment
+jdk/internal/misc/PreviewFeatures
 jdk/internal/misc/ScopedMemoryAccess
 jdk/internal/misc/Signal
 jdk/internal/misc/Signal$Handler
@@ -1032,7 +1058,6 @@ jdk/internal/org/objectweb/asm/AnnotationVisitor
 jdk/internal/org/objectweb/asm/AnnotationWriter
 jdk/internal/org/objectweb/asm/Attribute
 jdk/internal/org/objectweb/asm/ByteVector
-jdk/internal/org/objectweb/asm/ClassReader
 jdk/internal/org/objectweb/asm/ClassVisitor
 jdk/internal/org/objectweb/asm/ClassWriter
 jdk/internal/org/objectweb/asm/ConstantDynamic
@@ -1084,14 +1109,21 @@ jdk/internal/reflect/ReflectionFactory$GetReflectionFactoryAction
 jdk/internal/reflect/UnsafeFieldAccessorImpl
 jdk/internal/reflect/UnsafeStaticFieldAccessorImpl
 jdk/internal/util/ArraysSupport
+jdk/internal/util/ByteArray
+jdk/internal/util/ClassFileDumper
 jdk/internal/util/Preconditions
 jdk/internal/util/Preconditions$1
 jdk/internal/util/Preconditions$2
 jdk/internal/util/Preconditions$3
 jdk/internal/util/Preconditions$4
+jdk/internal/util/ReferenceKey
+jdk/internal/util/ReferencedKeyMap
+jdk/internal/util/ReferencedKeySet
 jdk/internal/util/StaticProperty
+jdk/internal/util/StrongReferenceKey
 jdk/internal/util/SystemProps
 jdk/internal/util/SystemProps$Raw
+jdk/internal/util/WeakReferenceKey
 jdk/internal/util/random/RandomSupport
 jdk/internal/vm/Continuation
 jdk/internal/vm/ContinuationScope
@@ -1102,7 +1134,7 @@ jdk/internal/vm/StackableScope
 jdk/internal/vm/ThreadContainer
 jdk/internal/vm/ThreadContainers
 jdk/internal/vm/ThreadContainers$RootContainer
-jdk/internal/vm/ThreadContainers$RootContainer$CountingRootContainer
+jdk/internal/vm/ThreadContainers$RootContainer$TrackingRootContainer
 jdk/internal/vm/vector/VectorSupport
 jdk/internal/vm/vector/VectorSupport$Vector
 jdk/internal/vm/vector/VectorSupport$VectorMask
@@ -1115,11 +1147,11 @@ sun/invoke/util/ValueConversions$WrapperCache
 sun/invoke/util/VerifyAccess
 sun/invoke/util/VerifyType
 sun/invoke/util/Wrapper
-sun/invoke/util/Wrapper$1
 sun/invoke/util/Wrapper$Format
 sun/io/Win32ErrorMode
 sun/launcher/LauncherHelper
 sun/net/util/IPAddressUtil
+sun/net/util/IPAddressUtil$MASKS
 sun/net/util/URLUtil
 sun/net/www/ParseUtil
 sun/net/www/protocol/file/Handler
@@ -1175,11 +1207,13 @@ sun/nio/fs/WindowsPathType
 sun/nio/fs/WindowsUriSupport
 sun/reflect/annotation/AnnotationParser
 sun/security/action/GetBooleanAction
+sun/security/action/GetIntegerAction
 sun/security/action/GetPropertyAction
 sun/security/util/Debug
 sun/security/util/FilePermCompat
 sun/security/util/LazyCodeSourcePermissionCollection
 sun/security/util/SecurityProperties
+sun/security/util/SignatureFileVerifier
 sun/text/resources/cldr/FormatData
 sun/util/PreHashedMap
 sun/util/calendar/AbstractCalendar
@@ -1220,7 +1254,6 @@ sun/util/locale/provider/DecimalFormatSymbolsProviderImpl
 sun/util/locale/provider/JRELocaleProviderAdapter
 sun/util/locale/provider/LocaleDataMetaInfo
 sun/util/locale/provider/LocaleProviderAdapter
-sun/util/locale/provider/LocaleProviderAdapter$1
 sun/util/locale/provider/LocaleProviderAdapter$Type
 sun/util/locale/provider/LocaleResources
 sun/util/locale/provider/LocaleResources$ResourceReference
@@ -1351,6 +1384,7 @@ sun/util/spi/CalendarProvider
 @lambda-form-invoker [LF_RESOLVE] java.lang.invoke.DirectMethodHandle$Holder invokeStatic L_L
 @lambda-form-invoker [LF_RESOLVE] java.lang.invoke.DirectMethodHandle$Holder invokeStatic L_V
 @lambda-form-invoker [LF_RESOLVE] java.lang.invoke.DirectMethodHandle$Holder invokeStaticInit LL_L
+@lambda-form-invoker [LF_RESOLVE] java.lang.invoke.DirectMethodHandle$Holder invokeStaticInit L_L
 @lambda-form-invoker [LF_RESOLVE] java.lang.invoke.DirectMethodHandle$Holder invokeVirtual L3_V
 @lambda-form-invoker [LF_RESOLVE] java.lang.invoke.DirectMethodHandle$Holder invokeVirtual LL_L
 @lambda-form-invoker [LF_RESOLVE] java.lang.invoke.DirectMethodHandle$Holder newInvokeSpecial L3_L
@@ -1419,7 +1453,8 @@ sun/util/spi/CalendarProvider
 @lambda-proxy java/lang/module/ModuleFinder$2 apply ()Ljava/util/function/Function; (Ljava/lang/Object;)Ljava/lang/Object; REF_invokeStatic java/lang/module/ModuleFinder$2 lambda$findAll$2 (Ljava/lang/module/ModuleFinder;)Ljava/util/stream/Stream; (Ljava/lang/module/ModuleFinder;)Ljava/util/stream/Stream;
 @lambda-proxy java/lang/module/ModuleFinder$2 apply ()Ljava/util/function/Function; (Ljava/lang/Object;)Ljava/lang/Object; REF_invokeVirtual java/util/Optional stream ()Ljava/util/stream/Stream; (Ljava/util/Optional;)Ljava/util/stream/Stream;
 @lambda-proxy java/lang/module/ModuleFinder$2 apply (Ljava/lang/String;)Ljava/util/function/Function; (Ljava/lang/Object;)Ljava/lang/Object; REF_invokeStatic java/lang/module/ModuleFinder$2 lambda$find$0 (Ljava/lang/String;Ljava/lang/module/ModuleFinder;)Ljava/util/Optional; (Ljava/lang/module/ModuleFinder;)Ljava/util/Optional;
-@lambda-proxy java/text/DecimalFormatSymbols test ()Ljava/util/function/IntPredicate; (I)Z REF_invokeStatic java/text/DecimalFormatSymbols lambda$findNonFormatChar$0 (I)Z (I)Z
+@lambda-proxy java/security/Security run ()Ljava/security/PrivilegedAction; ()Ljava/lang/Object; REF_invokeStatic java/security/Security lambda$static$0 ()Ljava/lang/Object; ()Ljava/lang/Object;
+@lambda-proxy java/time/ZoneOffset apply ()Ljava/util/function/Function; (Ljava/lang/Object;)Ljava/lang/Object; REF_invokeStatic java/time/ZoneOffset lambda$ofTotalSeconds$0 (Ljava/lang/Integer;)Ljava/time/ZoneOffset; (Ljava/lang/Integer;)Ljava/time/ZoneOffset;
 @lambda-proxy java/time/format/DateTimeFormatter queryFrom ()Ljava/time/temporal/TemporalQuery; (Ljava/time/temporal/TemporalAccessor;)Ljava/lang/Object; REF_invokeStatic java/time/format/DateTimeFormatter lambda$static$0 (Ljava/time/temporal/TemporalAccessor;)Ljava/time/Period; (Ljava/time/temporal/TemporalAccessor;)Ljava/time/Period;
 @lambda-proxy java/time/format/DateTimeFormatter queryFrom ()Ljava/time/temporal/TemporalQuery; (Ljava/time/temporal/TemporalAccessor;)Ljava/lang/Object; REF_invokeStatic java/time/format/DateTimeFormatter lambda$static$1 (Ljava/time/temporal/TemporalAccessor;)Ljava/lang/Boolean; (Ljava/time/temporal/TemporalAccessor;)Ljava/lang/Boolean;
 @lambda-proxy java/time/format/DateTimeFormatterBuilder queryFrom ()Ljava/time/temporal/TemporalQuery; (Ljava/time/temporal/TemporalAccessor;)Ljava/lang/Object; REF_invokeStatic java/time/format/DateTimeFormatterBuilder lambda$static$0 (Ljava/time/temporal/TemporalAccessor;)Ljava/time/ZoneId; (Ljava/time/temporal/TemporalAccessor;)Ljava/time/ZoneId;
@@ -1445,10 +1480,6 @@ sun/util/spi/CalendarProvider
 @lambda-proxy java/util/stream/Collectors get ()Ljava/util/function/Supplier; ()Ljava/lang/Object; REF_newInvokeSpecial java/util/HashSet <init> ()V ()Ljava/util/HashSet;
 @lambda-proxy java/util/stream/Collectors get (Ljava/lang/CharSequence;Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/util/function/Supplier; ()Ljava/lang/Object; REF_invokeStatic java/util/stream/Collectors lambda$joining$11 (Ljava/lang/CharSequence;Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/util/StringJoiner; ()Ljava/util/StringJoiner;
 @lambda-proxy java/util/stream/Collectors get (Ljava/util/stream/Collector;)Ljava/util/function/Supplier; ()Ljava/lang/Object; REF_invokeStatic java/util/stream/Collectors lambda$partitioningBy$64 (Ljava/util/stream/Collector;)Ljava/util/stream/Collectors$Partition; ()Ljava/util/stream/Collectors$Partition;
-@lambda-proxy java/util/stream/FindOps$FindSink$OfInt get ()Ljava/util/function/Supplier; ()Ljava/lang/Object; REF_newInvokeSpecial java/util/stream/FindOps$FindSink$OfInt <init> ()V ()Ljava/util/stream/TerminalSink;
-@lambda-proxy java/util/stream/FindOps$FindSink$OfInt get ()Ljava/util/function/Supplier; ()Ljava/lang/Object; REF_newInvokeSpecial java/util/stream/FindOps$FindSink$OfInt <init> ()V ()Ljava/util/stream/TerminalSink;
-@lambda-proxy java/util/stream/FindOps$FindSink$OfInt test ()Ljava/util/function/Predicate; (Ljava/lang/Object;)Z REF_invokeVirtual java/util/OptionalInt isPresent ()Z (Ljava/util/OptionalInt;)Z
-@lambda-proxy java/util/stream/FindOps$FindSink$OfInt test ()Ljava/util/function/Predicate; (Ljava/lang/Object;)Z REF_invokeVirtual java/util/OptionalInt isPresent ()Z (Ljava/util/OptionalInt;)Z
 @lambda-proxy java/util/stream/FindOps$FindSink$OfRef get ()Ljava/util/function/Supplier; ()Ljava/lang/Object; REF_newInvokeSpecial java/util/stream/FindOps$FindSink$OfRef <init> ()V ()Ljava/util/stream/TerminalSink;
 @lambda-proxy java/util/stream/FindOps$FindSink$OfRef get ()Ljava/util/function/Supplier; ()Ljava/lang/Object; REF_newInvokeSpecial java/util/stream/FindOps$FindSink$OfRef <init> ()V ()Ljava/util/stream/TerminalSink;
 @lambda-proxy java/util/stream/FindOps$FindSink$OfRef test ()Ljava/util/function/Predicate; (Ljava/lang/Object;)Z REF_invokeVirtual java/util/Optional isPresent ()Z (Ljava/util/Optional;)Z
